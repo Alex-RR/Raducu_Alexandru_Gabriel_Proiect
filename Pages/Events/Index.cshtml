@@ -1,0 +1,82 @@
+﻿@page "/{id:int?}"
+@model Raducu_Alexandru_Gabriel_Proiect.Pages.Events.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Event[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Event[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Event[0].FullDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Event[0].EventStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Event[0].Duration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Event[0].Location.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Event[0].EventGuests)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.EventD.Events) {
+          string selectedRow = "";
+          if (item.ID == Model.EventID)
+          {
+             selectedRow = "table-success";
+          }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location.Name)
+            </td>
+            <td>
+             @{
+                foreach (var guest in item.EventGuests)
+                {
+                    @guest.Guest.ID @: @guest.Guest.Name (<a href="mailto:@guest.Guest.Email">Send Mail</a>) <br/>
+                }
+             }
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

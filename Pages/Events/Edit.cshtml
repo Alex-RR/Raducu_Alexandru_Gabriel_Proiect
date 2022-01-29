@@ -1,0 +1,87 @@
+﻿@page
+@model Raducu_Alexandru_Gabriel_Proiect.Pages.Events.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Event</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Event.ID" />
+            <div class="form-group">
+                <label asp-for="Event.Name" class="control-label"></label>
+                <input asp-for="Event.Name" class="form-control" />
+                <span asp-validation-for="Event.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.Description" class="control-label"></label>
+                <input asp-for="Event.Description" class="form-control" />
+                <span asp-validation-for="Event.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.FullDateTime" class="control-label"></label>
+                <input asp-for="Event.FullDateTime" class="form-control" />
+                <span asp-validation-for="Event.FullDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.EventStatus" class="control-label"></label>
+                <input asp-for="Event.EventStatus" class="form-control" />
+                <span asp-validation-for="Event.EventStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.Duration" class="control-label"></label>
+                <input asp-for="Event.Duration" class="form-control" />
+                <span asp-validation-for="Event.Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.LocationID" class="control-label">Location Name</label>
+                <select asp-for="Event.LocationID" class="form-control" asp-items="ViewBag.LocationID"></select>
+                <span asp-validation-for="Event.LocationID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Invited Guests
+                <div class="table">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                foreach (var gst in Model.AssignedGuestDataList)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                        @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input id="guest-@gst.GuestID" type="checkbox"
+                                            name="selectedGuests"
+                                            value="@gst.GuestID"
+                                            @(Html.Raw(gst.Assigned ?
+                                                 "checked=\"checked\"" : "")) />
+                                        @gst.GuestID @: <label for="guest-@gst.GuestID" class="control-label">@gst.Name</label>
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
